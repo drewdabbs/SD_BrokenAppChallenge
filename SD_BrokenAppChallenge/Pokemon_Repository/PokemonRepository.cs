@@ -5,8 +5,6 @@ namespace Pokemon_Repository
     public class PokemonRepository
     {
         private List<Pokemon> _pokemonTeam = new List<Pokemon>();
-
-
         //add to list (limit pokemon to 6)
         public bool AddPokemonToTeam(Pokemon pokemon)
         {
@@ -48,7 +46,6 @@ namespace Pokemon_Repository
                 }
             }
         }
-
         //remove pokemon
         public void RemovePokemonFromTeam(int teamPosition)
         {

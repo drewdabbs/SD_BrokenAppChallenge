@@ -78,7 +78,8 @@ namespace Pokemon_Console
                         $"\nMove One: {pokemon.MoveOne} \nMove Two: {pokemon.MoveTwo}" +
                         $"\nMove Three: {pokemon.MoveThree} \nMove Four: {pokemon.MoveFour}");
                 }
-            }Console.ReadKey();
+            }
+            Console.ReadKey();
         }
         private void AddPokemonToTeam()
         {
@@ -153,9 +154,7 @@ namespace Pokemon_Console
                     string moveThree = Console.ReadLine();
                     Console.WriteLine("Name of Fourth Move: ");
                     string moveFour = Console.ReadLine();
-
-
-                    Pokemon newPokemon = new Pokemon(species, name, level, typeOne, typeTwo, moveOne,moveTwo, moveThree, moveFour);
+                    Pokemon newPokemon = new Pokemon(species, name, level, typeOne, typeTwo, moveOne, moveTwo, moveThree, moveFour);
                     _repo.AddPokemonToTeam(newPokemon);
                     Console.WriteLine("Pokemon added!");
                     Console.ReadKey();
@@ -254,21 +253,14 @@ namespace Pokemon_Console
                     "\n15. Dragon" +
                     "\n16. None");
                 PokemonType typeTwo = (PokemonType)int.Parse(Console.ReadLine());
-
-
                 Console.WriteLine("Name of First Move: ");
                 string moveOne = Console.ReadLine();
                 Console.WriteLine("Name of Second Move: ");
                 string moveTwo = Console.ReadLine();
-
-
-
                 Console.WriteLine("Name of Third Move: ");
                 string moveThree = Console.ReadLine();
                 Console.WriteLine("Name of Fourth Move: ");
                 string moveFour = Console.ReadLine();
-
-
                 Pokemon newPokemon = new Pokemon(species, name, level, typeOne, typeTwo, moveOne, moveTwo, moveThree, moveFour);
                 _repo.UpdatePokemonByTeamPosition(teamPosition, newPokemon);
                 Console.WriteLine("Pokemon updated!");
@@ -276,7 +268,6 @@ namespace Pokemon_Console
             }
             Console.Clear();
         }
-
         private void RemoveAPokemon()
         {
             List<Pokemon> pokemonTeam = _repo.GetPokemonTeam();

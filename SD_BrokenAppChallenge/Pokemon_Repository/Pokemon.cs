@@ -34,7 +34,6 @@
 
         public Pokemon(string speciesName, string nickName, int level, PokemonType pokemonType, PokemonType secondaryType, string moveOne, string moveTwo, string moveThree, string moveFour)
         {
-            //TeamPosition = teamPosition;
             PokemonSpeciesName = speciesName;
             PokemonNickName = nickName;
             Level = level;
@@ -42,7 +41,6 @@
             SecondaryType = secondaryType;
             MoveOne = moveOne;
             MoveTwo = moveTwo;
-
             MoveThree = moveTwo;
             MoveFour = moveFour;
         }
