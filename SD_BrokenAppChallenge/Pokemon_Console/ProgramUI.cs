@@ -1,36 +1,36 @@
 ﻿using Pokemon_Repository;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Pokemon_Console
 {
-    private class ProgramUI
+    public class ProgramUI
     {
-        private PokemonRepository _Repo = new PokemonRepository();
+        private PokemonRepository _repo = new PokemonRepository();
         public void Run()
         {
             SeedPokemonTeam();
+            Runmenu();
         }
-        public void runmenu()
+        public void Runmenu()
         {
-            bool continueToRunMenu = false;
-
+            bool continueToRunMenu = true;
             while (continueToRunMenu)
             {
-                Console.WriteLine("What would you like to do?" +
-                    "1. See my Pokemon Team" +
-                    "2. Add new Pokemon to my Team" +
-                    "3. Update a Pokemon on my Team" +
-                    "4. Remove Pokemon from my Team" +
-                    "5. Exit");
                 Console.Clear();
-                int response = int.Parse(Console.ReadLine());
+                Console.WriteLine("What would you like to do?\n" +
+                    "1. See my Pokemon Team\n" +
+                    "2. Add new Pokemon to my Team\n" +
+                    "3. Update a Pokemon on my Team\n" +
+                    "4. Remove Pokemon from my Team\n" +
+                    "5. Exit\n");
+                string userInput = Console.ReadLine();
+                int response = int.Parse(userInput);
                 switch (response)
                 {
                     case 1:
-                        return;
                         SeeMyPokemonTeam();
-                        Console.Clear();
                         break;
                     case 2:
                         AddPokemonToTeam();
@@ -39,10 +39,11 @@ namespace Pokemon_Console
                         UpdateAPokemonMenu();
                         break;
                     case 4:
+                        RemoveAPokemon();
                         break;
                     case 5:
-                        continueToRun = false;
-
+                        continueToRunMenu = false;
+                        break;
                     default:
                         Console.WriteLine("Please enter a valid response.");
                         Console.ReadKey();
@@ -77,7 +78,7 @@ namespace Pokemon_Console
                         $"\nMove One: {pokemon.MoveOne} \nMove Two: {pokemon.MoveTwo}" +
                         $"\nMove Three: {pokemon.MoveThree} \nMove Four: {pokemon.MoveFour}");
                 }
-            }
+            }Console.ReadKey();
         }
         private void AddPokemonToTeam()
         {
@@ -98,7 +99,7 @@ namespace Pokemon_Console
                 string name = Console.ReadLine();
 
                 Console.WriteLine("Pokemon Level: ");
-                string pokeLevel = 
+                string pokeLevel = Console.ReadLine();
 
                 if (!pokeLevel.All(char.IsDigit))
                 {
@@ -125,9 +126,6 @@ namespace Pokemon_Console
                         "\n14. Fairy" +
                         "\n15. Dragon");
                     PokemonType typeOne = (PokemonType)int.Parse(Console.ReadLine());
-
-
-
                     Console.WriteLine("Pokemon Secondary Type: " +
                         "\n1. Normal" +
                         "\n2. Grass" +
@@ -157,23 +155,10 @@ namespace Pokemon_Console
                     string moveFour = Console.ReadLine();
 
 
-                    Pokemon newPokemon = new Pokemon(species, name, level, typeOne, typeTwo, moveOne, moveThree, moveFour);
+                    Pokemon newPokemon = new Pokemon(species, name, level, typeOne, typeTwo, moveOne,moveTwo, moveThree, moveFour);
                     _repo.AddPokemonToTeam(newPokemon);
                     Console.WriteLine("Pokemon added!");
                     Console.ReadKey();
-
-
-
-
-
-
-
-
-
-
-
-
-
                 }
             }
             Console.Clear();
@@ -190,8 +175,6 @@ namespace Pokemon_Console
             else
             {
                 Console.Clear();
-
-
                 Console.WriteLine("My Team:");
                 for (int i = 0; i < pokemonTeam.Count; i++)
                 {
@@ -202,15 +185,13 @@ namespace Pokemon_Console
                         $"\nMove One: {pokemonTeam[i].MoveOne} - Move Two: {pokemonTeam[i].MoveTwo}" +
                         $"\nMove Three: {pokemonTeam[i].MoveThree} - Move Four: {pokemonTeam[i].MoveFour}");
                 }
-
-
-
                 Console.WriteLine("\n\nEnter position number of pokemon you wish to update");
-                int response = int.Parse();
+                string sResponse = Console.ReadLine();
+                int response = int.Parse(sResponse);
                 UpdateAPokemon(response);
             }
         }
-        private void UpdateAPokemon( teamPosition)
+        private void UpdateAPokemon(int teamPosition)
         {
             Pokemon pokemon = _repo.GetPokemonByTeamPosition(teamPosition);
             Console.Clear();
@@ -221,11 +202,11 @@ namespace Pokemon_Console
                   $"\nMove Three: {pokemon.MoveThree} - Move Four: {pokemon.MoveFour}");
             Console.WriteLine("Lets update this member of our team!" +
                     "\n\nPokemon Species Name: ");
-            string species = console.ReadLine();
+            string species = Console.ReadLine();
 
 
             Console.WriteLine("Pokemon Nick Name: ");
-            string name = Console.Readline();
+            string name = Console.ReadLine();
 
             Console.WriteLine("Pokemon Level: ");
             string pokeLevel = Console.ReadLine()
@@ -294,38 +275,39 @@ namespace Pokemon_Console
                 Console.ReadKey();
             }
             Console.Clear();
+        }
 
-            private void RemoveAPokemon()
+        private void RemoveAPokemon()
+        {
+            List<Pokemon> pokemonTeam = _repo.GetPokemonTeam();
+            if (pokemonTeam.Count == 0)
             {
-                List<Pokemon> pokemonTeam = _repo.GetPokemonTeam();
-                if (pokemonTeam.Count == 0)
+                Console.WriteLine("Your Team is empty!");
+                Console.ReadKey();
+                Console.Clear();
+            }
+            else
+            {
+                Console.WriteLine("My Team:");
+                for (int i = 0; i < pokemonTeam.Count; i++)
                 {
-                    Console.WriteLine("Your Team is empty!");
-                    Console.ReadKey();
-                    Console.Clear();
+                    Console.WriteLine($"\n{i + 1}" +
+                        $"\n{pokemonTeam[i].PokemonNickName} ({pokemonTeam[i].PokemonSpeciesName})" +
+                        $"\nLevel: {pokemonTeam[i].Level}" +
+                        $"\nTypes: {pokemonTeam[i].PokemonType} - {pokemonTeam[i].SecondaryType}" +
+                        $"\nMove One: {pokemonTeam[i].MoveOne} - Move Two: {pokemonTeam[i].MoveTwo}" +
+                        $"\nMove Three: {pokemonTeam[i].MoveThree} - Move Four: {pokemonTeam[i].MoveFour}");
                 }
-                else
-                {
-                    Console.WriteLine("My Team:");
-                    for (int i = 0; i < pokemonTeam.Count; i++)
-                    {
-                        Console.WriteLine($"\n{i + 1}" +
-                            $"\n{pokemonTeam[i].PokemonNickName} ({pokemonTeam[i].PokemonSpeciesName})" +
-                            $"\nLevel: {pokemonTeam[i].Level}" +
-                            $"\nTypes: {pokemonTeam[i].PokemonType} - {pokemonTeam[i].SecondaryType}" +
-                            $"\nMove One: {pokemonTeam[i].MoveOne} - Move Two: {pokemonTeam[i].MoveTwo}" +
-                            $"\nMove Three: {pokemonTeam[i].MoveThree} - Move Four: {pokemonTeam[i].MoveFour}");
-                    }
-                    Console.WriteLine("\n\nEnter position number of pokemon you wish to remove");
-                    int response = int.Parse(Console.ReadLine());
-                    _repo.RemovePokemonFromTeam(response);
-                    Console.Clear();
-                    Console.WriteLine("Pokemon removed from Team" +
-                        "\n\nPress any key to return to menu...");
-                    Console.ReadKey();
-                    Console.Clear();
-                }
+                Console.WriteLine("\n\nEnter position number of pokemon you wish to remove");
+                int response = int.Parse(Console.ReadLine());
+                _repo.RemovePokemonFromTeam(response);
+                Console.Clear();
+                Console.WriteLine("Pokemon removed from Team" +
+                    "\n\nPress any key to return to menu...");
+                Console.ReadKey();
+                Console.Clear();
             }
         }
     }
+}
 
